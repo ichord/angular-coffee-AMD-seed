@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ichord/angular-coffee-AMD-seed.png)](https://travis-ci.org/ichord/angular-coffee-AMD-seed)
+
 ### Tech Stack
 
 * Grunt

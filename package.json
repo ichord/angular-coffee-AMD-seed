@@ -1,6 +1,9 @@
 {
   "name": "skt",
   "version": "0.0.0",
+  "scripts": {
+    "test": "grunt ci --verbose"
+  },
   "dependencies": {},
   "devDependencies": {
     "grunt": "~0.4.1",
