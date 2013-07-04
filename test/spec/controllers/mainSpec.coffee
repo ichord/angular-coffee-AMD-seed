@@ -12,4 +12,4 @@ define ['angular', 'angularMocks', 'controllers/main'], (ng, mock) ->
       $controller 'MainCtrl', $scope: scope
 
     it 'should attach a list of awesomeThings to the scope', () ->
-      expect(scope.awesomeThings.length).toBe 3
+      expect(scope.awesomeThings.length).toBe 5

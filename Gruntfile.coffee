@@ -163,7 +163,7 @@ module.exports = (grunt) ->
       build:
         files: [
           expand: true, dot: true, cwd: "<%= yo.src %>", dest: "<%= yo.build %>",
-          src: ["vendors/**/*.js", "!vendors/**/*.min.js"]
+          src: ["vendors/*/*.js", "!vendors/**/*.min.js"]
         ]
       dist:
         files: [
@@ -183,13 +183,19 @@ module.exports = (grunt) ->
         browsers: ["PhantomJS"]
 
 
+  # compile coffeescript, scss
   grunt.registerTask "compile", ["coffee", "compass"]
+  # build all stuff for development and ready for production
   grunt.registerTask "build", ["clean:build", "compile", "copy:build"]
+  # build production stuff
   grunt.registerTask "dist", ["imagemin", "cssmin", "htmlmin", "ngmin", "requirejs", "rev", "usemin"]
-
+  # for travis, CI testing
   grunt.registerTask "ci", ["build", "karma:ci"]
-  grunt.registerTask "spec", ["build", "karma:unit", "watch"]
+  # run testing while there is any things be changed
+  grunt.registerTask "autotest", ["build", "karma:unit", "watch"]
+  # setup development env, autocompile, livereload and open the browers.
   grunt.registerTask "development", ["build", "connect:livereload", "open", "watch"]
+  # simulate production env.
   grunt.registerTask "production", ["clean:dist", "build", "dist", "connect:production", "open", "watch"]
 
   grunt.registerTask "default", ["build"]
