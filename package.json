@@ -4,6 +4,10 @@
   "scripts": {
     "test": "grunt ci --verbose"
   },
+  "author": {
+    "name": "Harold Luo",
+    "email": "chord.luo@gmail.com"
+  },
   "dependencies": {},
   "devDependencies": {
     "grunt": "~0.4.1",
@@ -23,7 +27,8 @@
     "matchdep": "~0.1.1",
     "grunt-ngmin": "~0.0.2",
     "grunt-contrib-watch": "~0.4.4",
-    "grunt-contrib-requirejs": "~0.4.1"
+    "grunt-contrib-requirejs": "~0.4.1",
+    "grunt-contrib-livereload": "~0.1.2"
   },
   "engines": {
     "node": ">=0.8.0"
