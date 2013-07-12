@@ -5,9 +5,9 @@ module.exports = function(karma) {
 
     // list of files / patterns to load in the browser
     files: [
-      {pattern: 'vendors/angular/angular.js', included: false},
-      {pattern: 'vendors/angular-mocks/angular-mocks.js', included: false},
-      {pattern: 'vendors/angular-resource/angular-resource.js', included: false},
+      {pattern: 'vendor/angular/angular.js', included: false},
+      {pattern: 'vendor/angular-mocks/angular-mocks.js', included: false},
+      {pattern: 'vendor/angular-resource/angular-resource.js', included: false},
       {pattern: 'scripts/**/*.js', included: false },
       {pattern: 'spec/**/*Spec.js', included: false},
       'test-build.js'

@@ -10,8 +10,8 @@ module.exports = (grunt) ->
 
   # configurable paths
   yeomanConfig =
-    src: "src"
-    vendors: "src/vendors"
+    app: "app"
+    vendor: "app/vendor"
     build: "build"
     dist: "dist"
 
@@ -19,37 +19,33 @@ module.exports = (grunt) ->
     yeomanConfig.src = require("./bower.json").appPath or yeomanConfig.src
 
   grunt.initConfig
+
     yo: yeomanConfig
+
     watch:
       options:
         livereload: true
-
       coffee:
-        files: ["<%= yo.src %>/scripts/{,*/}*.coffee"]
+        files: ["<%= yo.app %>/scripts/{,*/}*.coffee"]
         tasks: ["coffee:build"]
-
       coffeeTest:
         files: ["test/spec/{,*/}*.coffee"]
         tasks: ["coffee:test", "karma:unit:run"]
-
       compass:
-        files: ["<%= yo.src %>/styles/{,*/}*.{scss,sass}"]
+        files: ["<%= yo.app %>/styles/{,*/}*.{scss,sass}"]
         tasks: ["compass"]
-
       statics:
-        files: ["<%= yo.src %>/{,*/}*.html", "<%= yo.src %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}"]
+        files: ["<%= yo.app %>/{,*/}*.html", "<%= yo.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}"]
 
     connect:
       options:
         port: 9000
         # Change this to '0.0.0.0' to access the server from outside.
         hostname: "localhost"
-
       livereload:
         options:
           middleware: (connect) ->
-            [lrSnippet, mountFolder(connect, yeomanConfig.build), mountFolder(connect, yeomanConfig.src)]
-
+            [lrSnippet, mountFolder(connect, yeomanConfig.build), mountFolder(connect, yeomanConfig.app)]
       production:
         options:
           middleware: (connect) ->
@@ -67,7 +63,7 @@ module.exports = (grunt) ->
       build:
         files: [
           expand: true
-          cwd: "<%= yo.src %>/scripts"
+          cwd: "<%= yo.app %>/scripts"
           src: "{,*/}*.coffee"
           dest: "<%= yo.build %>/scripts"
           ext: ".js"
@@ -83,14 +79,14 @@ module.exports = (grunt) ->
 
     compass:
       options:
-        sassDir: "<%= yo.src %>/styles"
+        sassDir: "<%= yo.app %>/styles"
         cssDir: "<%= yo.build %>/styles"
-        imagesDir: "<%= yo.src %>/images"
-        javascriptsDir: "<%= yo.src %>/scripts"
-        fontsDir: "<%= yo.src %>/styles/fonts"
-        importPath: "<%= yo.vendors %>/foundation/scss"
+        # imagesDir: "<%= yo.app %>/images"
+        # javascriptsDir: "<%= yo.app %>/scripts"
+        # fontsDir: "<%= yo.app %>/styles/fonts"
+        # importPath: "<%= yo.vendor %>/foundation/scss"
         relativeAssets: true
-      server:
+      dev:
         options:
           debugInfo: true
 
@@ -98,7 +94,7 @@ module.exports = (grunt) ->
       dist:
         files: [
           expand: true
-          cwd: "<%= yo.src %>/images"
+          cwd: "<%= yo.app %>/images"
           src: "{,*/}*.{png,jpg,jpeg}"
           dest: "<%= yo.dist %>/images"
         ]
@@ -106,7 +102,10 @@ module.exports = (grunt) ->
     cssmin:
       dist:
         files:
-          "<%= yo.dist %>/styles/main.css": ["<%= yo.build %>/styles/{,*/}*.css", "<%= yo.src %>/styles/{,*/}*.css"]
+          "<%= yo.dist %>/styles/main.css": [
+            "<%= yo.build %>/styles/{,*/}*.css",
+            "<%= yo.app %>/styles/{,*/}*.css"
+          ]
 
     htmlmin:
       dist:
@@ -121,8 +120,8 @@ module.exports = (grunt) ->
         removeOptionalTags: true
         files: [
           expand: true
-          cwd: "<%= yo.src %>"
-          src: ["*.html", "views/*.html"]
+          cwd: "<%= yo.app %>"
+          src: ["*.html", "views/**/*.html"]
           dest: "<%= yo.dist %>"
         ]
 
@@ -142,7 +141,7 @@ module.exports = (grunt) ->
           out: "<%= yo.dist %>/scripts/main.js"
 
     useminPrepare:
-      html: "<%= yo.src %>/index.html"
+      html: "<%= yo.build %>/index.html"
       dest: "<%= yo.dist %>"
 
     usemin:
@@ -162,13 +161,25 @@ module.exports = (grunt) ->
     copy:
       build:
         files: [
-          expand: true, dot: true, cwd: "<%= yo.src %>", dest: "<%= yo.build %>",
-          src: ["vendors/*/*.js", "!vendors/**/*.min.js"]
+            expand: true, cwd: "<%= yo.app %>", dest: "<%= yo.build %>",
+            src: [
+              "index.html", "vendor/pure/**/*.css",
+              "vendor/*/*.js", "vendor/json3/lib/*.js",
+              "!vendor/**/*.min.js", "!vendor/**/Gruntfile.js"
+            ]
+        ]
+      test:
+        files: [
+          expand: true, cwd: "<%= yo.app %>", dest: "<%= yo.build %>",
+          src: [
+            "vendor/*/*.js", "vendor/json3/lib/*.js",
+            "!vendor/**/*.min.js", "!vendor/**/Gruntfile.js"
+          ]
         ]
       dist:
         files: [
-            expand: true, cwd: "<%= yo.src %>", dest: "<%= yo.dist %>",
-            src: ["*.{ico,txt}", "images/{,*/}*.{gif,webp}", "styles/fonts/*", "vendors/requirejs/require.js"]
+            expand: true, cwd: "<%= yo.app %>", dest: "<%= yo.dist %>",
+            src: ["*.{ico,txt}", "images/{,*/}*.{gif,webp}", "styles/fonts/*", "vendor/requirejs/require.js"]
         ]
 
     karma:
@@ -186,16 +197,18 @@ module.exports = (grunt) ->
   # compile coffeescript, scss
   grunt.registerTask "compile", ["coffee", "compass"]
   # build all stuff for development and ready for production
-  grunt.registerTask "build", ["clean:build", "compile", "copy:build"]
+  grunt.registerTask "build", ["clean:build", "compile"]
   # build production stuff
-  grunt.registerTask "dist", ["imagemin", "cssmin", "htmlmin", "ngmin", "requirejs", "rev", "usemin"]
-  # for travis, CI testing
-  grunt.registerTask "ci", ["build", "karma:ci"]
-  # run testing while there is any things be changed
-  grunt.registerTask "autotest", ["build", "karma:unit", "watch"]
-  # setup development env, autocompile, livereload and open the browers.
-  grunt.registerTask "development", ["build", "connect:livereload", "open", "watch"]
-  # simulate production env.
-  grunt.registerTask "production", ["clean:dist", "build", "dist", "connect:production", "open", "watch"]
+  grunt.registerTask "min", ["useminPrepare", "imagemin", "concat", "cssmin", "htmlmin", "ngmin", "requirejs", "rev", "usemin"]
 
-  grunt.registerTask "default", ["build"]
+  # for travis, CI testing
+  grunt.registerTask "ci", ["build", "copy:test", "karma:ci"]
+  # run testing while there is any things be changed
+  grunt.registerTask "autotest", ["karma:unit", "watch"]
+
+  # setup development env, autocompile, livereload and open the browers.
+  grunt.registerTask "dev", ["build", "connect:livereload", "open", "watch"]
+  # simulate production env.
+  grunt.registerTask "dist", ["clean:dist", "build", "copy:build", "min", "copy:dist", "connect:production", "open", "watch"]
+
+  grunt.registerTask "default", ["dev"]

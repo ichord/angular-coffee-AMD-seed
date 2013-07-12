@@ -5,10 +5,10 @@ requirejs.config
   # Karma serves files from '/base'
   baseUrl: '/base/scripts',
   paths:
-    'jQuery': '../vendors/jquery/jquery'
-    'angular': '../vendors/angular/angular'
-    'angular-resource': '../vendors/angular-resource/angular-resource'
-    'angularMocks': '../vendors/angular-mocks/angular-mocks'
+    'jQuery': '../vendor/jquery/jquery'
+    'angular': '../vendor/angular/angular'
+    'angular-resource': '../vendor/angular-resource/angular-resource'
+    'angularMocks': '../vendor/angular-mocks/angular-mocks'
   shim:
     'angular': {'exports' : 'angular'}
     'angular-resource': { deps: ['angular'] }

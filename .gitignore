@@ -1,6 +1,8 @@
 node_modules
 build
-vendors
+vendor
 dist
 .tmp
 .sass-cache
+src/**/*.js
+src/**/*.css

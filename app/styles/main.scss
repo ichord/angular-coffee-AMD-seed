@@ -1,0 +1,61 @@
+/* Will be compiled down to a single stylesheet with your sass files */
+//@import "foundation";
+//
+//.container {
+//  @extend .row;
+//}
+body {
+  margin: 0;
+  color: #777;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+    color: rgb(75, 75, 75);
+}
+h3 {
+    font-size: 1.25em;
+}
+h4 {
+    font-size: 1.125em;
+}
+
+.main-container {
+  padding: 3em 0.5em;
+  margin: 0 auto;
+  height: 100%;
+  width: 70%;
+  margin-bottom:50px;
+}
+
+.header {
+  margin: 0 0;
+  .pure-menu {
+    padding: 0.5em;
+  }
+  .pure-menu li a:hover,
+  .pure-menu li a:focus {
+    background: none;
+//    border: none;
+    color: #aaa;
+  }
+  .pure-menu-selected {
+    font-weight: bolder;
+    font-size: 120%;
+    border-bottom: 1px solid black;
+  }
+}
+
+.footer {
+  text-align: center;
+  padding: 1em 0;
+  a {
+    color: #ccc;
+    font-size: 80%;
+  }
+  .pure-menu a:hover,
+  .pure-menu a:focus {
+    background: none;
+    text-decoration: underline;
+  }
+}

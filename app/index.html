@@ -1,0 +1,79 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+
+    <link rel="stylesheet" href="vendor/pure/src/base/css/normalize-context.css">
+    <link rel="stylesheet" href="vendor/pure/src/base/css/normalize.css">
+
+    <link rel="stylesheet" href="vendor/pure/src/buttons/css/buttons-core.css">
+    <link rel="stylesheet" href="vendor/pure/src/buttons/css/buttons.css">
+
+    <link rel="stylesheet" href="vendor/pure/src/forms/css/forms-core.css">
+    <link rel="stylesheet" href="vendor/pure/src/forms/css/forms-r.css">
+    <link rel="stylesheet" href="vendor/pure/src/forms/css/forms.css">
+
+    <link rel="stylesheet" href="vendor/pure/src/grids/css/grids-core.css">
+    <link rel="stylesheet" href="vendor/pure/src/grids/css/grids-r.css">
+    <link rel="stylesheet" href="vendor/pure/src/grids/css/grids-units.css">
+
+    <link rel="stylesheet" href="vendor/pure/src/menus/css/menus-core.css">
+    <link rel="stylesheet" href="vendor/pure/src/menus/css/menus-paginator.css">
+    <link rel="stylesheet" href="vendor/pure/src/menus/css/menus-r.css">
+    <link rel="stylesheet" href="vendor/pure/src/menus/css/menus.css">
+
+    <link rel="stylesheet" href="vendor/pure/src/tables/css/tables.css">
+
+    <!-- endbuild -->
+
+    <!--[if lt IE 7]>
+      <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+    <![endif]-->
+    <!--[if lt IE 9]>
+      <script src="vendor/es5-shim/es5-shim.js"></script>
+      <script src="vendor/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+    <!-- build:js scripts/main.js -->
+    <script type="text/javascript" data-main="scripts/main" src="vendor/requirejs/require.js"></script>
+    <!-- endbuild -->
+  </head>
+  <body>
+
+    <div class="pure-g-r">
+
+      <header class="header pure-u-1">
+        <div class="pure-menu pure-menu-open pure-menu-horizontal">
+          <a href="#" class="pure-menu-heading">Serv-less</a>
+          <ul>
+            <li class="pure-menu-selected"><a href="#">Home</a></li>
+            <li><a href="#/about">About</a></li>
+            <li><a href="#/signup">Signup</a></li>
+          </ul>
+        </div>
+      </header>
+
+      <!-- Add your site or application content here -->
+      <div class="main-container pure-u-1" ng-view></div>
+
+      <footer class="footer pure-u-1">
+          <div class="pure-menu pure-menu-horizontal pure-menu-open">
+            <ul>
+              <li><a href="#">Let's talk about server less </a></li>
+            </ul>
+          </div>
+      </footer>
+    </div>
+
+  </body>
+</html>

@@ -7,7 +7,7 @@
 * CoffeeScript
 * Sass
 * AngularJS
-* Foundation
+* Pure (css)
 * RequireJS
 * Karma
 * Compass
@@ -20,14 +20,14 @@
 
 ### Dir Structure
 
-* src - development stuff. coffeescript, sass, template and so on.
+* app - development stuff. coffeescript, sass, template and so on.
 * build - complied stuff. javascript, css, spec test... dev server will run on it.
 * dist - production stuff. compress and min files which can deploy to server.
 * test - testing!
 
 ### Tasks
 
-* grunt build - generate build stuff
+* grunt dev - set up development env
 * grunt dist - generate production stuff
 * grunt compile - compile coffeescript and sass
 * more details in `Gruntfile.coffee`

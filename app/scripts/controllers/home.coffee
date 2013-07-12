@@ -1,8 +1,8 @@
 'use strict'
 
-define ['app'], ->
+define ['controllers/base'], ->
 
-  angular.module('sktApp').controller 'MainCtrl', ($scope) ->
+  angular.module('controllers').controller 'HomeCtrl', ($scope) ->
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS!!!',
