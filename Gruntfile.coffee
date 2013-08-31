@@ -25,9 +25,12 @@ module.exports = (grunt) ->
     watch:
       options:
         livereload: true
+        nospawn: true
       coffee:
-        files: ["<%= yo.app %>/scripts/{,*/}*.coffee"]
+        files: ["<%= yo.app %>/scripts/**/{,*/}*.coffee"]
         tasks: ["coffee:build"]
+        options:
+          events: ['changed', 'added']
       coffeeTest:
         files: ["test/spec/{,*/}*.coffee"]
         tasks: ["coffee:test", "karma:unit:run"]
@@ -60,22 +63,21 @@ module.exports = (grunt) ->
       build: "<%= yo.build %>"
 
     coffee:
+      # options:
+      #   sourceMap: yes
+      #   sourceRoot: './'
       build:
-        files: [
-          expand: true
-          cwd: "<%= yo.app %>/scripts"
-          src: "{,*/}*.coffee"
-          dest: "<%= yo.build %>/scripts"
-          ext: ".js"
-        ]
+        expand: true
+        cwd: "<%= yo.app %>/scripts"
+        src: "**/{,*/}*.coffee"
+        dest: "<%= yo.build %>/scripts"
+        ext: ".js"
       test:
-        files: [
-          expand: true
-          cwd: "test"
-          src: "**/{,*/}*.coffee"
-          dest: "<%= yo.build %>"
-          ext: ".js"
-        ]
+        expand: true
+        cwd: "test"
+        src: "**/{,*/}*.coffee"
+        dest: "<%= yo.build %>"
+        ext: ".js"
 
     compass:
       options:
@@ -161,7 +163,7 @@ module.exports = (grunt) ->
     copy:
       build:
         files: [
-            expand: true, cwd: "<%= yo.app %>", dest: "<%= yo.build %>",
+            expand: true, dot: false, cwd: "<%= yo.app %>", dest: "<%= yo.build %>",
             src: [
               "index.html", "vendor/pure/**/*.css",
               "vendor/*/*.js", "vendor/json3/lib/*.js",
@@ -170,15 +172,15 @@ module.exports = (grunt) ->
         ]
       test:
         files: [
-          expand: true, cwd: "<%= yo.app %>", dest: "<%= yo.build %>",
+          expand: true, dot: false, cwd: "<%= yo.app %>", dest: "<%= yo.build %>",
           src: [
             "vendor/*/*.js", "vendor/json3/lib/*.js",
-            "!vendor/**/*.min.js", "!vendor/**/Gruntfile.js"
+            "!vendor/**/*.min.js", "!vendor/**/Gruntfile.js",
           ]
         ]
       dist:
         files: [
-            expand: true, cwd: "<%= yo.app %>", dest: "<%= yo.dist %>",
+            expand: true, dot: false, cwd: "<%= yo.app %>", dest: "<%= yo.dist %>",
             src: ["*.{ico,txt}", "images/{,*/}*.{gif,webp}", "styles/fonts/*", "vendor/requirejs/require.js"]
         ]
 
@@ -192,6 +194,19 @@ module.exports = (grunt) ->
       ci:
         singleRun: true
         browsers: ["PhantomJS"]
+
+
+  # just recreate changed coffee file
+  changedFiles = Object.create(null);
+  onChange = grunt.util._.debounce(->
+    grunt.config 'coffee.build.src', Object.keys(changedFiles)
+    changedFiles = Object.create(null);
+  , 200);
+  grunt.event.on 'watch', (action, filepath, target) ->
+    if grunt.file.isMatch grunt.config('watch.coffee.files'), filepath
+      filepath = filepath.replace( grunt.config('coffee.build.cwd')+'/', '' );
+      changedFiles[filepath] = action;
+      onChange();
 
 
   # compile coffeescript, scss
